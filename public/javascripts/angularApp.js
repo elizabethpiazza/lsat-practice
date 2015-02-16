@@ -71,7 +71,7 @@ app.factory('weeks', ['$http', function($http){
 		});
 	};
 	o.delTask = function (id) {
-		return $http.delete('/tasks/' + id);
+		return $http.delete('/tasks/' + id).success(removeTask(o.tasks, id));
 		//need to write function to remove task from o.tasks for immediate viewing
 	}
 	return o;

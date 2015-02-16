@@ -7,7 +7,8 @@ var TaskSchema = new mongoose.Schema({
 	book: String,
 	link: String,
 	type: String,
-	status: {type: String, default: 'NS'},
+	status: { type: String, default: 'NS' },
+	attempts: { type: Date },
 	week: { type: mongoose.Schema.Types.ObjectId, ref: 'Week' }
 });
 

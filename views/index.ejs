@@ -31,16 +31,28 @@
 	    <h1>Week {{week.week}}</h1>
 	    <table>
 			<tr><th colspan="4">WEEK {{week.week}}</th></tr>
+			<tr>
+				<th>Topic</th>
+				<td colspan="4">
+					<table class="topic">
+						<th>Theme</th>
+						<th>Book</th>
+						<th>Description</th>
+						<th>Status</th>
+					</table>
+				</td>
+			</tr>
 			<tr ng-repeat="topic in topics" ng-show="(filtered = (week.tasks | filter: {topic : topic})).length > 0">
 				<td>
 					{{topic}}
 				</td>
-				<td colspan="3">
+				<td colspan="4">
 					<table class="topic">
 					<tr ng-repeat="task in week.tasks | filter: {topic : topic }">
-						<td>{{topic}}, {{task.theme}}</td>
+						<td>{{task.theme}}</td>
 						<td>{{task.book}}</td>
 						<td>{{task.description}}</td>
+						<td>{{task.status}}</td>
 					</tr>
 					</table>
 				</td>
@@ -57,7 +69,7 @@
 	    		</select></span><br />
 	    		<span>Description: <input type="text" ng-model="newTask.description" placeholder="i.e. 'Chapter X'"></span><br />
 	    		<span>Theme: <input type="text" ng-model="newTask.theme" placeholder="i.e. chapter title"></span><br />
-	    		<span>Book/Source: <input type="text" ng-model="newTask.book" placeholder="i.e. chapter title"></span><br />
+	    		<span>Book/Source: <input type="text" ng-model="newTask.book" placeholder="i.e. book title"></span><br />
 	    		<span>Link: <input type="text" ng-model="newTask.link" placeholder="URL, if one available"></span><br />
 	    		Type:
 	    		<span id="radio">

@@ -66,10 +66,15 @@ router.get('/tasks', function (req, res, next) {
 });
 
 router.delete('/tasks/:task', function (req, res) {
-	//need to find way to remove references from task.week to task
 	var task = req.task;
+	var week = task.week;
+
 	Task.findByIdAndRemove(task, function(err) {
 		if (err) {return next(err); }
+
+		Week.update({ tasks: task._id }, { $pull: { tasks: task._id } }, function (err) {
+			if (err) {return next(err); }
+		});
 
 		res.json({message:"task removed"});
 	});
