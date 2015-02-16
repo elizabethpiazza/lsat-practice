@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style> table .topic { table-layout: fixed; width: 100%; } .topic td { width: 33%; box-sizing: border-box;} td { border: 1px solid black; } #myform select, input, #radio { float:right; } #myform span { display: block; } #myform .radio { float: none; } </style>
+  </head>
+  <body ng-app="lsatPractice">
+  	<div>
+  		<ui-view></ui-view>
+  	</div>
+
+  	<script type="text/ng-template" id="/home.html">
+	    <h1>LSAT Power Score Tracker</h1>
+	    <p>Your test date: {{testDate}}</p>
+	    <p>That is {{timeLeft}} weeks away!</p>
+	    <table width="350px">
+	    	<tr>
+	    		<th>Week</th>
+	    		<th>Progress</th>
+	    	</tr>
+	    	<tr ng-repeat="week in weeks | orderBy: 'week'">
+	    		<td><a href="#/weeks/{{week._id}}">Week {{week.week}}</a></td>
+	    		<td>{{week.progress}}%</td>
+	    	</tr>
+	    </table>
+	    <p>To add tasks your study guide, please click <a href="#/addTasks">here</a>.</p>
+    </script>
+
+    <script type="text/ng-template" id="/weeks.html">
+	    <h1>Week {{week.week}}</h1>
+	    <table>
+			<tr><th colspan="4">WEEK {{week.week}}</th></tr>
+			<tr ng-repeat="topic in topics" ng-show="(filtered = (week.tasks | filter: {topic : topic})).length > 0">
+				<td>
+					{{topic}}
+				</td>
+				<td colspan="3">
+					<table class="topic">
+					<tr ng-repeat="task in week.tasks | filter: {topic : topic }">
+						<td>{{topic}}, {{task.theme}}</td>
+						<td>{{task.book}}</td>
+						<td>{{task.description}}</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+	    </table>
+    </script>
+
+    <script type="text/ng-template" id="/addTasks.html">
+	    <h1>Add Tasks</h1>
+	    	<form id="myform" ng-submit="addTask()">
+	    		<span>Week: <select ng-model="newTask.week" ng-options="week as week.week for week in weeks | orderBy:'week'">
+	    		</select></span><br />
+	    		<span>Topic: <select ng-model="newTask.topic" ng-options="topic for topic in topics">
+	    		</select></span><br />
+	    		<span>Description: <input type="text" ng-model="newTask.description" placeholder="i.e. 'Chapter X'"></span><br />
+	    		<span>Theme: <input type="text" ng-model="newTask.theme" placeholder="i.e. chapter title"></span><br />
+	    		<span>Book/Source: <input type="text" ng-model="newTask.book" placeholder="i.e. chapter title"></span><br />
+	    		<span>Link: <input type="text" ng-model="newTask.link" placeholder="URL, if one available"></span><br />
+	    		Type:
+	    		<span id="radio">
+	    			<span><input type="radio" class="radio" ng-model="newTask.type" value="reading"> Reading/Prep</span><br />
+	    			<span><input type="radio" class="radio" ng-model="newTask.type" value="assignment"> Assignment</span><br />
+	    			<span><input type="radio" class="radio" ng-model="newTask.type" value="practest"> Practice Test</span>
+	    		</span><br />
+	    		<button type="submit">Submit</button>
+	    	</form>
+	    	<div style="clear: both;">test model
+	    		<br />{{newTask}}</div>
+	    	</div>
+	    	<div>Tasks that exist:
+	    		<p ng-repeat="task in tasks">my task {{task.book}} <button ng-click="delTask(task._id)">Delete me!</button></p>
+	    	</div>
+    </script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+    <script src="/javascripts/appFunctions.js"></script>
+    <script src="/javascripts/angularApp.js"></script>
+  </body>
+</html>
