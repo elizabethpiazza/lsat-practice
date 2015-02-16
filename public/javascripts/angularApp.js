@@ -71,8 +71,11 @@ app.factory('weeks', ['$http', function($http){
 		});
 	};
 	o.delTask = function (id) {
-		return $http.delete('/tasks/' + id).success(removeTask(o.tasks, id));
-		//need to write function to remove task from o.tasks for immediate viewing
+		return $http.delete('/tasks/' + id)
+		.success(removeTask(o.tasks, id));
+	};
+	o.updateTask = function (task) {
+		return $http.put('tasks/' + task._id + '/update', task);
 	}
 	return o;
 }]);
@@ -95,6 +98,9 @@ app.controller('WeeksCtrl', [
 	function ($scope, weeks, week) {
 		$scope.topics = weeks.topics;
 		$scope.week = week;
+		$scope.updateTask = function (task) {
+			weeks.updateTask(task);
+		}
 	}
 ]);
 
@@ -115,7 +121,7 @@ app.controller('AddTasksCtrl', [
 				link : $scope.newTask.link,
 				type : $scope.newTask.type,
 			});
-			$scope.newTask = {}
+			$scope.newTask = {};
 		};
 		$scope.delTask = function(id){
 			weeks.delTask(id);

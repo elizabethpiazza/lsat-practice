@@ -73,16 +73,28 @@ router.delete('/tasks/:task', function (req, res) {
 		if (err) {return next(err); }
 
 		Week.update({ tasks: task._id }, { $pull: { tasks: task._id } }, function (err) {
-			if (err) {return next(err); }
+			if (err) { return next(err); }
 		});
 
 		res.json({message:"task removed"});
 	});
 });
 
+router.put('/tasks/:task/update', function (req, res, next) {
+	var task = req.body;
+
+	Task.update({ _id: task._id }, { $set: { status: task.status } }, function (err) {
+		if (err) { return next(err); }
+	});
+
+	res.json(task);
+});
+
 router.post('/weeks/:week/tasks', function (req, res, next) {
 	var task = new Task(req.body);
 	task.week = req.week;
+
+	console.log(task);
 
 	task.save(function (err, task) {
 		if (err) { return next(err); }

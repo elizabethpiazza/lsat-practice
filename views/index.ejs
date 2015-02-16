@@ -3,7 +3,7 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <style> table .topic { table-layout: fixed; width: 100%; } .topic td { width: 33%; box-sizing: border-box;} td { border: 1px solid black; } #myform select, input, #radio { float:right; } #myform span { display: block; } #myform .radio { float: none; } </style>
+    <style> table .topic { table-layout: fixed; width: 100%; } .topic td { width: 33%; box-sizing: border-box;} td { border: 1px solid black; } #myform select, #myform input, #radio { float:right; } #myform span { display: block; } #myform .radio { float: none; } </style>
   </head>
   <body ng-app="lsatPractice">
   	<div>
@@ -52,7 +52,16 @@
 						<td>{{task.theme}}</td>
 						<td>{{task.book}}</td>
 						<td>{{task.description}}</td>
-						<td>{{task.status}}</td>
+						<td>{{task.status}}
+
+							<select ng-model="task.status">
+								<option value="NS">NS</option>
+								<option value="IC">IC</option>
+								<option value="NR">NR</option>
+								<option value="S">S</option>
+				    		</select>
+				    		<button ng-click="updateTask(task)">+</button>
+						</td>
 					</tr>
 					</table>
 				</td>
