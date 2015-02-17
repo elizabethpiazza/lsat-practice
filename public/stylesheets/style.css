@@ -1,8 +1,169 @@
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+html, body {
+	height: 100%;
+}
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	background: blue;
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+h1 {
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+	font-size: 24px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 600;
+	line-height: 26.3999996185303px;
+}
+
+h2 {
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+	font-size: 18px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 600;
+	line-height: 15.3999996185303px;
+}
+
+h3, th {
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 600;
+	line-height: 15.3999996185303px;
 }
 
 a {
-  color: #00B7FF;
+	text-decoration: none;
+	color: #610000;
+}
+
+a:hover {
+	color: #8C0000;
+	font-weight: bold;
+}
+
+#header-cont, #footer-cont {
+	width: 100%;
+	background: #BA0000;
+	padding: 0;
+}
+
+#header-cont {
+	height: 50px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#footer-cont {
+	height: 20;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+#container {
+	width: 100%;
+	min-height: 100%;
+	min-width: 1000px;
+	margin: 0 auto;
+	padding-top: 50px;
+	background: #FFFFFF;
+}
+
+#header {
+	padding: 10px;
+	background: #BA0000;
+	color: #FFFFFF;
+	text-align: center;
+	height: 50px;
+}
+
+#navigation {
+	background: #BA0000;
+	position: fixed;
+	float: left;
+	width: 15%;
+	height: 100%;
+	overflow: hidden;
+	min-width: 150px;
+	padding: 10px;
+	padding-left: 20px;
+}
+
+#navigation a, #navigation a:hover{
+	color: white;
+}
+
+#content {
+	background: #FFFFFF;
+	float: right;
+	width: 85%;
+	text-align: center;
+	padding: 10px;
+}
+
+#footer {
+	padding: 0;
+	background: #BA0000;
+	color: #FFFFFF;
+	font-size: 10px;
+	text-align: center;
+	clear: both;
+}
+
+#subnav {
+	margin-left: 15px;
+	font-size: 12px;
+}
+
+#navigation li{
+	color: white;
+	padding: 5px 0;
+}
+
+#subnav li{
+	padding: 0;
+}
+
+table {
+	table-layout: fixed;
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+table .topic {
+	table-layout: fixed;
+	width: 100%;
+}
+.topic td {
+	width: 33%;
+	box-sizing: border-box;
+}
+td {
+	border: 1px solid black;
+}
+#myform select, #myform input, #radio {
+	float:right;
+}
+#myform span {
+	display: block;
+}
+#myform .radio {
+	float: none;
 }

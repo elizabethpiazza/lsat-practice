@@ -2,16 +2,30 @@
 <html>
   <head>
     <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/reset.css' />
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <style> table .topic { table-layout: fixed; width: 100%; } .topic td { width: 33%; box-sizing: border-box;} td { border: 1px solid black; } #myform select, #myform input, #radio { float:right; } #myform span { display: block; } #myform .radio { float: none; } </style>
   </head>
   <body ng-app="lsatPractice">
-  	<div>
-  		<ui-view></ui-view>
+  	<div id="header-cont"><div id="header"><h1>LSAT PRACTICE ASSIGNMENT TRACKER</h1></div></div>
+  	<div id="container" ng-controller="HomeCtrl">
+  		<div id="navigation">
+			<ul>
+				<li><a href="#/home"><h3>Home</h3></a></li>
+				<li><h3>Weeks</h3>
+					<ul id="subnav">
+						<li ng-repeat="week in weeks | orderBy: 'week'"><a href="#/weeks/{{week._id}}">Week {{week.week}}</a></li>
+					</ul>
+			</li>
+				<li><a href="#/taskeditor"><h3>Task Editor</h3></a></li>
+			</ul>
+		</div>
+  		<div id="content"><ui-view></ui-view></div>
   	</div>
+	<div id="footer-cont"><div id="footer"><3 from Lizzie</div></div>
 
-  	<script type="text/ng-template" id="/home.html">
-	    <h1>LSAT Power Score Tracker</h1>
+
+
+	<script type="text/ng-template" id="/home.html">
 	    <p>Your test date: {{testDate}}</p>
 	    <p>That is {{timeLeft}} weeks away!</p>
 	    <table width="350px">
@@ -21,13 +35,13 @@
 	    	</tr>
 	    	<tr ng-repeat="week in weeks | orderBy: 'week'">
 	    		<td><a href="#/weeks/{{week._id}}">Week {{week.week}}</a></td>
-	    		<td>{{week.progress}}%</td>
+	    		<td>0%</td>
 	    	</tr>
 	    </table>
-	    <p>To add tasks your study guide, please click <a href="#/addTasks">here</a>.</p>
+	    <p>To add tasks your study guide, please click <a href="#/taskeditor">here</a>.</p>
     </script>
 
-    <script type="text/ng-template" id="/weeks.html">
+    <script type="text/ng-template" id="/week.html">
 	    <h1>Week {{week.week}}</h1>
 	    <table>
 			<tr><th colspan="4">WEEK {{week.week}}</th></tr>
@@ -69,7 +83,7 @@
 	    </table>
     </script>
 
-    <script type="text/ng-template" id="/addTasks.html">
+    <script type="text/ng-template" id="/taskeditor.html">
 	    <h1>Add Tasks</h1>
 	    	<form id="myform" ng-submit="addTask()">
 	    		<span>Week: <select ng-model="newTask.week" ng-options="week as week.week for week in weeks | orderBy:'week'">
@@ -92,12 +106,12 @@
 	    		<br />{{newTask}}</div>
 	    	</div>
 	    	<div>Tasks that exist:
-	    		<p ng-repeat="task in tasks">my task {{task.book}} <button ng-click="delTask(task._id)">Delete me!</button></p>
+	    		<p ng-repeat="task in tasks">{{task.topic}}, {{task.theme}} ({{task.book}})<button ng-click="delTask(task._id)">Delete me!</button></p>
 	    	</div>
     </script>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+    <script src="/javascripts/angular.min.js"></script>
+    <script src="/javascripts/angular-ui-router.js"></script>
     <script src="/javascripts/appFunctions.js"></script>
     <script src="/javascripts/angularApp.js"></script>
   </body>

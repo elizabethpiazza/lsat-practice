@@ -9,27 +9,30 @@ app.config([
 			.state('home', {
 				url: '/home',
 				templateUrl: '/home.html',
-				controller: 'MainCtrl',
+				controller: 'HomeCtrl',
 				resolve: {
 					weekPromise: ['weeks', function(weeks){
 						return weeks.getWeeks();
 					}]
 				}
 			})
-			.state('weeks', {
+			.state('week', {
 				url: '/weeks/{id}',
-				templateUrl: '/weeks.html',
+				templateUrl: '/week.html',
 				controller: 'WeeksCtrl',
 				resolve: {
 					week: ['$stateParams', 'weeks', function($stateParams, weeks) {
 						return weeks.get($stateParams.id);
+					}],
+					weekPromise: ['weeks', function(weeks){
+						return weeks.getWeeks();
 					}]
 				}
 			})
-			.state('addTasks', {
-				url: '/addTasks',
-				templateUrl: '/addTasks.html',
-				controller: 'AddTasksCtrl',
+			.state('taskEditor', {
+				url: '/taskeditor',
+				templateUrl: '/taskeditor.html',
+				controller: 'TaskEditorCtrl',
 				resolve: {
 					weekPromise: ['weeks', function(weeks){
 						return weeks.getWeeks();
@@ -81,7 +84,7 @@ app.factory('weeks', ['$http', function($http){
 }]);
 
 //angular controllers here
-app.controller('MainCtrl', [
+app.controller('HomeCtrl', [
 	'$scope',
 	'weeks',
 	function ($scope, weeks) {
@@ -104,7 +107,7 @@ app.controller('WeeksCtrl', [
 	}
 ]);
 
-app.controller('AddTasksCtrl', [
+app.controller('TaskEditorCtrl', [
 	'$scope',
 	'weeks',
 	function ($scope, weeks) {
