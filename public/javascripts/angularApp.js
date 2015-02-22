@@ -101,7 +101,12 @@ app.controller('WeeksCtrl', [
 	function ($scope, weeks, week) {
 		$scope.topics = weeks.topics;
 		$scope.week = week;
-		$scope.updateTask = function (task) {
+		$scope.changeStatus = function (task) {
+			var statusList= ["NS", "IC", "NR", "S"];
+			var currStatus = task.status;
+			var statIndex = statusList.indexOf(currStatus);
+			var newStatus = statusList[(statIndex + 1) % statusList.length];
+			task.status = newStatus;
 			weeks.updateTask(task);
 		}
 	}

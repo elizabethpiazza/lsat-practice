@@ -2,33 +2,45 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/reset.css' />
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
   <body ng-app="lsatPractice">
-  	<div id="header-cont"><div id="header"><h1>LSAT PRACTICE ASSIGNMENT TRACKER</h1></div></div>
-  	<div id="container" ng-controller="HomeCtrl">
-  		<div id="navigation">
-			<ul>
-				<li><a href="#/home"><h3>Home</h3></a></li>
-				<li><h3>Weeks</h3>
-					<ul id="subnav">
-						<li ng-repeat="week in weeks | orderBy: 'week'"><a href="#/weeks/{{week._id}}">Week {{week.week}}</a></li>
-					</ul>
-			</li>
-				<li><a href="#/taskeditor"><h3>Task Editor</h3></a></li>
-			</ul>
+
+  	<div class="container" ng-controller="HomeCtrl">
+  		
+  		<div class="col-md-12"><h1>LSAT PRACTICE ASSIGNMENT TRACKER</h1></div>
+
+  		<div class="col-md-12">
+  				<ul class="nav nav-pills">
+					<li role="presentation"><a href="#/home">Home</a></li>
+					<li role="presentation" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Weeks<span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li role="presentation" ng-repeat="week in weeks | orderBy: 'week'"><a href="#/weeks/{{week._id}}">Week {{week.week}}</a></li>
+						</ul>
+					</li>
+					<li role="presentation"><a href="#/taskeditor">Task Editor</a></li>
+				</ul>
 		</div>
-  		<div id="content"><ui-view></ui-view></div>
+
+
+
+		<div class="col-md-12" id="content">
+			<ui-view></ui-view>
+		</div>
+
+  		<div class="col-md-12" id="footer"><small><3 from Lizzie</small></div>
+
   	</div>
-	<div id="footer-cont"><div id="footer"><3 from Lizzie</div></div>
+
+	
 
 
 
 	<script type="text/ng-template" id="/home.html">
 	    <p>Your test date: {{testDate}}</p>
 	    <p>That is {{timeLeft}} weeks away!</p>
-	    <table width="350px">
+	    <table width="350px" class="table table-hover">
 	    	<tr>
 	    		<th>Week</th>
 	    		<th>Progress</th>
@@ -42,77 +54,56 @@
     </script>
 
     <script type="text/ng-template" id="/week.html">
-	    <h1>Week {{week.week}}</h1>
-	    <table>
-			<tr><th colspan="4">WEEK {{week.week}}</th></tr>
-			<tr>
-				<th>Topic</th>
+	    <h2>WEEK {{week.week}}</h2>
+	    <p ng-hide="week.tasks.length > 0">No tasks this week!</p>
+	    <table class="table" ng-show="week.tasks.length > 0">
+			<tr ng-repeat-start="topic in topics" ng-show="(filtered = (week.tasks | filter: {topic : topic})).length > 0">
 				<td colspan="4">
-					<table class="topic">
-						<th>Theme</th>
-						<th>Book</th>
-						<th>Description</th>
-						<th>Status</th>
-					</table>
+					<h4>{{topic}}</h4>
 				</td>
 			</tr>
-			<tr ng-repeat="topic in topics" ng-show="(filtered = (week.tasks | filter: {topic : topic})).length > 0">
-				<td>
-					{{topic}}
-				</td>
-				<td colspan="4">
-					<table class="topic">
-					<tr ng-repeat="task in week.tasks | filter: {topic : topic }">
-						<td>{{task.theme}}</td>
-						<td>{{task.book}}</td>
-						<td>{{task.description}}</td>
-						<td>{{task.status}}
-
-							<select ng-model="task.status">
-								<option value="NS">NS</option>
-								<option value="IC">IC</option>
-								<option value="NR">NR</option>
-								<option value="S">S</option>
-				    		</select>
-				    		<button ng-click="updateTask(task)">+</button>
-						</td>
-					</tr>
-					</table>
-				</td>
+			<tr ng-repeat="task in week.tasks | filter: {topic : topic }"  ng-repeat-end>
+				<td>{{task.theme}}</td>
+				<td>{{task.book}}</td>
+				<td>{{task.description}}</td>
+				<td><div class="{{task.status}}" ng-click="changeStatus(task)"></div></td>
 			</tr>
 	    </table>
     </script>
 
     <script type="text/ng-template" id="/taskeditor.html">
-	    <h1>Add Tasks</h1>
-	    	<form id="myform" ng-submit="addTask()">
-	    		<span>Week: <select ng-model="newTask.week" ng-options="week as week.week for week in weeks | orderBy:'week'">
-	    		</select></span><br />
-	    		<span>Topic: <select ng-model="newTask.topic" ng-options="topic for topic in topics">
-	    		</select></span><br />
-	    		<span>Description: <input type="text" ng-model="newTask.description" placeholder="i.e. 'Chapter X'"></span><br />
-	    		<span>Theme: <input type="text" ng-model="newTask.theme" placeholder="i.e. chapter title"></span><br />
-	    		<span>Book/Source: <input type="text" ng-model="newTask.book" placeholder="i.e. book title"></span><br />
-	    		<span>Link: <input type="text" ng-model="newTask.link" placeholder="URL, if one available"></span><br />
-	    		Type:
-	    		<span id="radio">
-	    			<span><input type="radio" class="radio" ng-model="newTask.type" value="reading"> Reading/Prep</span><br />
-	    			<span><input type="radio" class="radio" ng-model="newTask.type" value="assignment"> Assignment</span><br />
-	    			<span><input type="radio" class="radio" ng-model="newTask.type" value="practest"> Practice Test</span>
-	    		</span><br />
-	    		<button type="submit">Submit</button>
-	    	</form>
-	    	<div style="clear: both;">test model
-	    		<br />{{newTask}}</div>
-	    	</div>
-	    	<div>Tasks that exist:
-	    		<p ng-repeat="task in tasks">{{task.topic}}, {{task.theme}} ({{task.book}})<button ng-click="delTask(task._id)">Delete me!</button></p>
-	    	</div>
+    <div class="row">
+	    	<div class="col-md-5">
+			    <h4>Add Tasks:</h4>
+			    	<form ng-submit="addTask()">
+			    		Week: <select ng-model="newTask.week" ng-options="week as week.week for week in weeks | orderBy:'week'">
+			    		</select><br />
+			    		Topic: <select ng-model="newTask.topic" ng-options="topic for topic in topics">
+			    		</select><br />
+			    		Description: <input type="text" ng-model="newTask.description" placeholder="i.e. 'Chapter X'"><br />
+			    		Theme: <input type="text" ng-model="newTask.theme" placeholder="i.e. chapter title"><br />
+			    		Book/Source: <input type="text" ng-model="newTask.book" placeholder="i.e. book title"><br />
+			    		Link: <input type="text" ng-model="newTask.link" placeholder="URL, if one available"><br />
+			    		Type:
+			    			<input type="radio" class="radio" ng-model="newTask.type" value="reading"> Reading/Prep<br />
+			    			<input type="radio" class="radio" ng-model="newTask.type" value="assignment"> Assignment<br />
+			    			<input type="radio" class="radio" ng-model="newTask.type" value="practest"> Practice Test
+			    		<br />
+			    		<button type="submit">Submit</button>
+			    	</form>
+		    </div>
+		    <div class="col-md-4">
+		    	<h4>Current Tasks:</h4>
+		    		<p ng-repeat="task in tasks">{{task.topic}}, {{task.theme}} ({{task.book}})<button ng-click="delTask(task._id)">Delete me!</button></p>
+		    </div>
+	    </div>
     </script>
 
     <script src="/javascripts/angular.min.js"></script>
     <script src="/javascripts/angular-ui-router.js"></script>
     <script src="/javascripts/appFunctions.js"></script>
     <script src="/javascripts/angularApp.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
   </body>
 </html>
