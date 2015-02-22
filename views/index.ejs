@@ -97,6 +97,12 @@
 		    		<p ng-repeat="task in tasks">{{task.topic}}, {{task.theme}} ({{task.book}})<button ng-click="delTask(task._id)">Delete me!</button></p>
 		    </div>
 	    </div>
+	    <!--<div class="col-md-4">
+	    	<h4>Add weeks:</h4>
+				<form ng-submit="addWeek()">
+					week number: <input type="text" ng-model="newweek.week"><button type="submit">Submit</button>
+				</form>
+	    </div>-->
     </script>
 
     <script src="/javascripts/angular.min.js"></script>

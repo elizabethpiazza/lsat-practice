@@ -73,6 +73,12 @@ app.factory('weeks', ['$http', function($http){
 			o.tasks.push(data);
 		});
 	};
+	o.addWeek = function (newweek) {
+		return $http.post('/weeks', newweek)
+		.success(function (data){
+			o.weeks.push(data);
+		});
+	};
 	o.delTask = function (id) {
 		return $http.delete('/tasks/' + id)
 		.success(removeTask(o.tasks, id));
@@ -133,6 +139,11 @@ app.controller('TaskEditorCtrl', [
 		};
 		$scope.delTask = function(id){
 			weeks.delTask(id);
+		};
+		$scope.addWeek = function(){
+			if ($scope.newweek === {}) { return; }
+			weeks.addWeek($scope.newweek);
+			$scope.newweek = {};
 		};
 	}
 ]);

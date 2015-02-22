@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/lsatpractice');
+mongoose.connect('mongodb://root:toor@ds047571.mongolab.com:47571/lsat-track');
 require('./models/Weeks');
 require('./models/Tasks');
 
